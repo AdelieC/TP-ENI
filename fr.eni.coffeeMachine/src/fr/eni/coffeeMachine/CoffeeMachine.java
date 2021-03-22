@@ -17,22 +17,34 @@ public class CoffeeMachine {
 		} while(paid < PRICE);
 		
 		due = paid - PRICE;
-		System.out.println("Je vous rends donc " + intoCoins(due) + "euros. Votre café est en préparation.");
+		System.out.println("Je vous rends donc " + due +"euros. Voici votre monnaie :");
+		showChange(due);
+		System.out.println("Merci pour votre achat! À bientôt!");
 	}
 
-	private static int[] intoCoins(int due) {
+	private static void showChange(int due) {
+		int[] numberOfCoins = numberOfCoins(due);
+		for(int i = 0; i<POSSIBLE_COINS.length; i++) {
+			if(numberOfCoins[i] > 0) {
+				System.out.println(numberOfCoins[i] + " pièce(s) de " + (float)POSSIBLE_COINS[i]/100 + " euros");
+			}
+		}
+		
+	}
+
+	private static int[] numberOfCoins(int due) {
 		int[] numberOfCoins = new int[POSSIBLE_COINS.length];
 		while(due >= 0){
 			for(int i = 0; i<POSSIBLE_COINS.length; i++) {
 				if(due <= POSSIBLE_COINS[i]) {
 					numberOfCoins[i] = due/POSSIBLE_COINS[i];
-
+					due -= due%POSSIBLE_COINS[i];
 				} else {
-					
+					numberOfCoins[i] = 0;
 				}
 			}
 		}
-		return coins;
+		return numberOfCoins;
 	}
 
 	private static void showChoices(int[] POSSIBLE_COINS) {
