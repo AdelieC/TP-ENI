@@ -44,12 +44,11 @@ public class CoffeeMachine {
 
 	private static int[] numberOfCoins(int changeDue) {
 		int[] numberOfCoins = new int[POSSIBLE_COINS.length];
-		while(changeDue >= 0){
-			//TODO revoir ma logique mdr : trop de fatigue...
-			for(int i = 1; i < POSSIBLE_COINS.length; i++) {
-				if(changeDue <= POSSIBLE_COINS[i]) {
-					numberOfCoins[i-1] = POSSIBLE_COINS[i-1]/changeDue;
-					changeDue -= POSSIBLE_COINS[i-1]%changeDue;
+		while(changeDue > 0){
+			for(int i = 0; i < POSSIBLE_COINS.length; i++) {
+				if((changeDue/POSSIBLE_COINS[i]) >= 1) {
+					numberOfCoins[i] = changeDue/POSSIBLE_COINS[i];
+					changeDue = changeDue%POSSIBLE_COINS[i];
 				} else {
 					numberOfCoins[i] = 0;
 				}
