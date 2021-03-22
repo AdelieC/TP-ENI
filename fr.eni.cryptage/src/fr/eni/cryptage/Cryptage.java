@@ -19,18 +19,51 @@ public class Cryptage {
 		} while(!key.matches("[A-Z]{1,8}"));
 				
 		sentence = crypt(sentence, key);
-		System.out.println("Votre phrase cryptée avec la clé " + key + " est : " + sentence);
+		System.out.println(sentence);
 		scan.close();
 	}
 
 	private static String crypt(String sentence, String key) {
-		char[][] chart = new char[26][26];
-		for(int i = 0; i<26; i++) {
-			for(int j = 0; j<26; j++) {
-				chart[i][j] = 0;
+		String az = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String fullKey = fitKeyToSentence(key, sentence);
+		String encrypted = "";
+		
+		//Il faut trouver le char de az dont l'index est égal à l'index d'az du char de sentence + l'index d'az du char de fullKey
+		for(int i = 0; i<sentence.length(); i++) {
+			//a) Checking if char at index i is a whitespace
+			if(sentence.charAt(i) == ' ') {
+				encrypted += " ";
+			} else {
+				
 			}
 		}
-		return null;
+		
+		return encrypted;
 	}
 
+	private static String fitKeyToSentence(String key, String sentence) {
+		String fullKey = "";
+		for(int i = 0, j = 0; i<sentence.length(); i++) {
+			//a) If char in sentence is a whitespace, put a whitespace in fullKey
+			if(sentence.charAt(i) == ' ') {
+				fullKey += " ";
+			//b) If not, put the corresponding letter of key inside fullKey
+			} else {
+				//c) Making sure we still have chars from key to put inside fullKey
+				if(j < key.length()) {
+					fullKey += key.charAt(j);
+					j++;
+				//d) if we've reached the end of the key...
+				} else {
+					//... we start again from key's first char...
+					j = 0;
+					fullKey += key.charAt(j);
+					//... and we increment so that we don't get key's first char twice
+					j++;
+				}
+			}
+		}
+		return fullKey;
+	}
+	
 }
