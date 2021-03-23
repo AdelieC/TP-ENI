@@ -25,10 +25,12 @@ public class LeepingSheep {
 		
 		//1) Checking if the user won
 		if(won(gameBoard)) {
+			show(gameBoard);
 			System.out.println("Bravo! Vous avez gagné!!");
 			
 		//2) Checking if the user is stuck
 		} else if(stuck(gameBoard)) {
+			show(gameBoard);
 			System.out.println("Vous avez bloqué vos moutons. Désolé mais vous avez perdu.");
 			
 		//3) Otherwise, enter or continue recursion to play!
@@ -74,13 +76,57 @@ public class LeepingSheep {
 	}
 
 	private static boolean stuck(char[] gameBoard) {
-		// TODO
-		return false;
+		int indexFreeSpot = 0;
+		int i = 0;
+		boolean stuck = false;
+		int lastI = gameBoard.length - 1;
+		
+		//1) Getting index of free spot
+		while(gameBoard[indexFreeSpot] != FREE_SPOT && i < gameBoard.length) {
+			indexFreeSpot = i;
+	        i++;
+		}
+		
+		//2) switching between all the positions of the free spot where the user can get stuck
+		if(indexFreeSpot == 0) {
+			stuck = (gameBoard[1] == LEAPING_RIGHT
+					&& gameBoard[2] == LEAPING_RIGHT);
+		} else if(indexFreeSpot == 1) {
+			stuck = (gameBoard[0] == LEAPING_LEFT
+					&& gameBoard[2] == LEAPING_RIGHT
+					&& gameBoard[3] == LEAPING_RIGHT);
+		} else if(indexFreeSpot == lastI) {
+			stuck = (gameBoard[lastI - 1] == LEAPING_LEFT
+					&& gameBoard[lastI - 2] == LEAPING_LEFT);
+		} else if(indexFreeSpot == (lastI - 1)) {
+			stuck = (gameBoard[lastI] == LEAPING_RIGHT
+					&& gameBoard[lastI - 2] == LEAPING_LEFT
+					&& gameBoard[lastI - 3] == LEAPING_LEFT);
+		} else {
+			stuck = ((gameBoard[indexFreeSpot - 1] == LEAPING_LEFT
+					&& gameBoard[indexFreeSpot - 2] == LEAPING_LEFT)
+					||
+					(gameBoard[indexFreeSpot + 1] == LEAPING_RIGHT
+					&& gameBoard[indexFreeSpot + 2] == LEAPING_RIGHT));
+		}
+		return stuck;
 	}
 
 	private static boolean won(char[] gameBoard) {
-		// TODO
-		return false;
+		boolean checker = false;
+		int i = 0;
+		int middle = (gameBoard.length-1)/2;
+		
+		//1) Checking if free spot is in the middle
+		if(gameBoard[middle] == FREE_SPOT) {
+			
+		//2) If it is : checking that full first half of gameboard is filled with sheep going left
+			do {
+				checker = (gameBoard[i] == LEAPING_LEFT);
+			    i++;
+			} while(checker && i < middle);
+		}
+		return checker;
 	}
 
 	private static void show(char[] gameBoard) {
