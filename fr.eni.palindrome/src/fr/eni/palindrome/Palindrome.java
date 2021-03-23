@@ -9,12 +9,12 @@ public class Palindrome {
 		String word = "";
 		
 		//1) Ask the user for a word to validate as a palindrome or not
-		System.out.println("Bonjour! Vous voulez vérifier si un mot est un palindrome? Écrivez-le ici :");
-		word = scan.nextLine().toUpperCase();
+		System.out.println("Bonjour! Vous voulez vérifier si un mot ou une phrase est un palindrome? Écrivez-le/la ici :");
+		word = scan.nextLine().toUpperCase().replaceAll(" ", "");
 		if(isPalin(word)) {
-			System.out.println("Le mot " + word + " est bien un palindrome!");
+			System.out.println("\"" + word + "\" est bien un palindrome!");
 		} else {
-			System.out.println("Le mot " + word + " n'est pas un palindrome.");
+			System.out.println("\"" + word + "\" n'est pas un palindrome.");
 		}
 		scan.close();
 	}
