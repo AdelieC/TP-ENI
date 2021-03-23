@@ -6,6 +6,7 @@ public class LeepingSheep {
 	final static char LEAPING_LEFT = '<';
 	final static char LEAPING_RIGHT = '>';
 	final static char FREE_SPOT = ' ';
+	final static Scanner SCAN = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		final String[] LEVELS = {"facile", "moyen", "difficile"};
@@ -16,12 +17,11 @@ public class LeepingSheep {
 		size = chooseSize(LEVELS, SIZES);
 		char[] gameBoard = init(size);
 		play(gameBoard);
-		
+		SCAN.close();
 	}
 
 	private static void play(char[] gameBoard) {
 		int input;
-		Scanner scan = new Scanner(System.in);
 		
 		//1) Checking if the user won
 		if(won(gameBoard)) {
@@ -38,7 +38,7 @@ public class LeepingSheep {
 			
 			//b) asking user to choose a sheep to move
 			System.out.println("Choisissez un mouton à faire avancer. Entrez son numéro de case :");
-			input = scan.nextInt();
+			input = SCAN.nextInt(); SCAN.nextLine();
 			
 			//c) checking if number chosen matches position of a sheep
 			if(input < 0 || input > gameBoard.length-1 || gameBoard[input] == FREE_SPOT) {
@@ -52,7 +52,6 @@ public class LeepingSheep {
 			}
 			play(gameBoard);
 		}
-		scan.close();
 	}
 
 	private static void tryMove(char[] gameBoard, int input, Boolean left) {
@@ -104,6 +103,8 @@ public class LeepingSheep {
 			System.out.print(square);
 			System.out.print(" | ");
 		}
+		System.out.println();
+		System.out.println();
 	}
 
 	private static char[] init(int size) {
@@ -113,30 +114,28 @@ public class LeepingSheep {
 		
 		//b) Placing sheep who can leap left
 		for(int i = 0; i<size; i++) {
-			gameBoard[i] = LEAPING_LEFT;
+			gameBoard[i] = LEAPING_RIGHT;
 		}
 		
 		//b) Placing sheep who can leap right
 		for(int i = size + 1; i<=size * 2; i++) {
-			gameBoard[i] = LEAPING_RIGHT;
+			gameBoard[i] = LEAPING_LEFT;
 		}
 		return gameBoard;
 	}
 
 	private static int chooseSize(String[] levels, int[] sizes) {
 		int size = 3;
-		Scanner scan = new Scanner(System.in);
 		int input = 0;
 		do {
 			System.out.println("Choisissez un niveau (entre 1 et 3) :");
 			for(int i = 0; i < sizes.length; i++) {
 				System.out.println(i+1 + " - " + levels[i]);
 			}
-			input = scan.nextInt();
+			input = SCAN.nextInt(); SCAN.nextLine();
 		} while(input < 1 || input > 3 );
 		size = sizes[input-1];
 		System.out.println("Vous avez choisi de jouer avec des équipes de " + size + " moutons! À vous de jouer :");
-		scan.close();
 		return size;
 	}
 
