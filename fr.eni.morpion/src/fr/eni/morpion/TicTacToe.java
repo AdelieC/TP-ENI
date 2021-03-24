@@ -38,11 +38,13 @@ public class TicTacToe {
 	private static boolean deadEnd(char[][] gameBoard) {
 		boolean full = false;
 		int i = 0;
+		int j = 0;
 		do {
-			for(int j = 0; j<SIZE; j++) {
+			do {
 				full = (gameBoard[i][j] != '_');
-				i++;
-			}
+				j++;
+			} while(full && j < SIZE);
+			i++;
 		} while(full && i < SIZE);
 		return full;
 	}
@@ -54,18 +56,45 @@ public class TicTacToe {
 	private static boolean play(char[][] gameBoard, char player) {
 		int col = 0;
 		int row = 0;
+		
+		do {
+			col = row = 0;
+			
+			//1) Ask for the number and the coordinates of the square where the current player wants to put his mark
+			System.out.println("C'EST À TON TOUR JOUEUR :" + player);
+			System.out.println("Entre les coordonnées où tu souhaites mettre ta couleur :");
+			System.out.print("COLONNE n° : "); col = SCAN.nextInt()-1 ;SCAN.nextLine();
+			System.out.print("LIGNE n° : "); row = SCAN.nextInt()-1 ;SCAN.nextLine();
+			System.out.println();
+			System.out.println("Tu as choisi : colonne = " + (col+1) + " et ligne = " + (row+1));
+		
+		//2) Check for VALIDITY :
+		} while(forbidden(gameBoard, col, row));
+		
+		//3) Change char in square chosen to the char of the player
+		gameBoard[row][col] = player;
+		
+		//4) Check for VICTORY :
+		return won(gameBoard, col, row, player);
+	}
+
+	private static boolean forbidden(char[][] gameBoard, int col, int row) {
+		if(col < 0 || col > SIZE && row < 0 || row > SIZE) {
+			return true;
+		} else {
+			return (gameBoard[row][col] != '_');
+		}
+	}
+
+	private static boolean won(char[][] gameBoard, int col, int row, char player) {
 		boolean won = false;
+		//1) loop through rows for column where player made last move
 		
-		//1) Ask for the number and the coordinates of the square where the current player wants to put his mark
-		System.out.println("C'EST À TON TOUR JOUEUR :" + player);
-		System.out.println("Entre les coordonnées où tu souhaites mettre ta couleur :");
-		System.out.print("COLONNE n° : "); col = SCAN.nextInt();SCAN.nextLine();
-		System.out.print("LIGNE n° : "); row = SCAN.nextInt();SCAN.nextLine();
-		System.out.println();
-		System.out.println("Tu as choisi : colonne = " + col + " et ligne = " + row);
 		
-		//2) Change char in square chosen to the char of the player
-		gameBoard[row -1][col - 1] = player;
+		//2) loop through columns for row where player made move
+		
+		
+		//3) check for diagonals
 		
 		return won;
 	}
