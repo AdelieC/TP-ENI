@@ -17,9 +17,9 @@ public class TicTacToe {
 			init(gameBoard);
 			show(gameBoard);
 			do {
-				change(player);
-				//stuck = deadEnd(gameBoard);
+				player = change(player);
 				won = play(gameBoard, PLAYERS[player]);
+				stuck = deadEnd(gameBoard);
 				show(gameBoard);
 			} while(!won && !stuck);
 			System.out.println(won? "Bravo! Le joueur " + PLAYERS[player] + " a gagné!!" : "Match nul!");
@@ -36,13 +36,19 @@ public class TicTacToe {
 	}
 
 	private static boolean deadEnd(char[][] gameBoard) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean full = false;
+		int i = 0;
+		do {
+			for(int j = 0; j<SIZE; j++) {
+				full = (gameBoard[i][j] != '_');
+				i++;
+			}
+		} while(full && i < SIZE);
+		return full;
 	}
 
-	private static void change(int player) {
-		// TODO Auto-generated method stub
-		
+	private static int change(int player) {
+		return player == 0 ? 1 : 0;
 	}
 
 	private static boolean play(char[][] gameBoard, char player) {
