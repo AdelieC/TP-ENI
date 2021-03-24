@@ -25,17 +25,19 @@ public class TicTacToe {
 			System.out.println(won? "Bravo! Le joueur " + PLAYERS[player] + " a gagné!!" : "Match nul!");
 			restart = askRestart();
 		} while(restart);
+		System.out.println("À bientôt!");
 		SCAN.close();
 	}
 
 	private static boolean askRestart() {
 		System.out.println("Souhaitez-vous refaire une partie?");
-		System.out.println("1 - OUI");
-		System.out.println("2 - NON");
+		System.out.println("1 - REJOUER");
+		System.out.println("2 - QUITTER");
 		return SCAN.nextInt() == 1? true : false;
 	}
 
 	private static boolean deadEnd(char[][] gameBoard) {
+		//TODO : can do better, looping through gameboard with same process as in won(), checking if there's both X and O on the same row/col
 		boolean full = false;
 		int i = 0;
 		int j = 0;
@@ -88,22 +90,28 @@ public class TicTacToe {
 
 	private static boolean won(char[][] gameBoard, int col, int row, char player) {
 		boolean won = false;
+		int i = 0;
 		
-		//1) loop through rows for column where player made last move
-		for (int i = 0; i<SIZE; i++) {
-			won = (gameBoard[i][col] == player);
-		}
-		
-		//2) loop through columns for row where player made move
-		if(!won) {
-			for (int i = 0; i<SIZE; i++) {
-				won = (gameBoard[row][i] == player);
-			}
-		}
-		
-		//3) check for diagonals
-		if(!won) {
+		//1) Check diagonals
+		if( gameBoard[1][1] == player) {
+			won = (gameBoard[0][0] == player 
+					&& gameBoard[2][2] == player
+					||
+					gameBoard[2][0] == player 
+					&& gameBoard[0][2] == player);
+		} else {
+			//2) Check rows for column where player made last move
+			do {
+				won = (gameBoard[i][col] == player);
+				i++;
+			} while(won && i<SIZE);
+			i=0;
 			
+			//3) If no win in rows, check columns for row where player made move
+			do {
+				won = (gameBoard[row][i] == player);
+				i++;
+			} while(won && i<SIZE);
 		}
 		return won;
 	}
