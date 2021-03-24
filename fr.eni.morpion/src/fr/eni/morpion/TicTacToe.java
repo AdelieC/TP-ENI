@@ -46,6 +46,7 @@ public class TicTacToe {
 				full = (gameBoard[i][j] != '_');
 				j++;
 			} while(full && j < SIZE);
+			j = 0;
 			i++;
 		} while(full && i < SIZE);
 		return full;
@@ -63,13 +64,13 @@ public class TicTacToe {
 			col = row = 0;
 			
 			//1) Ask for the number and the coordinates of the square where the current player wants to put his mark
-			System.out.println("C'EST À TON TOUR JOUEUR :" + player);
+			System.out.println("C'EST À TON TOUR JOUEUR " + player);
 			System.out.println("Entre les coordonnées où tu souhaites mettre ta couleur :");
 			System.out.print("COLONNE n° : "); col = SCAN.nextInt()-1 ;SCAN.nextLine();
 			System.out.print("LIGNE n° : "); row = SCAN.nextInt()-1 ;SCAN.nextLine();
 			System.out.println();
 			System.out.println("Tu as choisi : colonne = " + (col+1) + " et ligne = " + (row+1));
-		
+			System.out.println();
 		//2) Check for VALIDITY :
 		} while(forbidden(gameBoard, col, row));
 		
@@ -138,6 +139,7 @@ public class TicTacToe {
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 
 
