@@ -37,10 +37,12 @@ public class TicTacToe {
 	}
 
 	private static boolean deadEnd(char[][] gameBoard) {
-		//TODO : can do better, looping through gameboard with same process as in won(), checking if there's both X and O on the same row/col
+		//TODO : can do better if we check if there's both X and O on the same row/col/diagonal
 		boolean full = false;
 		int i = 0;
 		int j = 0;
+		
+		//Lazy way : checking if gameboard is full of O and X
 		do {
 			do {
 				full = (gameBoard[i][j] != '_');
@@ -60,16 +62,14 @@ public class TicTacToe {
 		int col = 0;
 		int row = 0;
 		
+		System.out.println("C'EST À TON TOUR JOUEUR " + player);
+		System.out.println("Entre les coordonnées où tu souhaites mettre ta couleur :");
 		do {
 			col = row = 0;
 			
 			//1) Ask for the number and the coordinates of the square where the current player wants to put his mark
-			System.out.println("C'EST À TON TOUR JOUEUR " + player);
-			System.out.println("Entre les coordonnées où tu souhaites mettre ta couleur :");
 			System.out.print("COLONNE n° : "); col = SCAN.nextInt()-1 ;SCAN.nextLine();
 			System.out.print("LIGNE n° : "); row = SCAN.nextInt()-1 ;SCAN.nextLine();
-			System.out.println();
-			System.out.println("Tu as choisi : colonne = " + (col+1) + " et ligne = " + (row+1));
 			System.out.println();
 		//2) Check for VALIDITY :
 		} while(forbidden(gameBoard, col, row));
@@ -82,11 +82,17 @@ public class TicTacToe {
 	}
 
 	private static boolean forbidden(char[][] gameBoard, int col, int row) {
-		if(col < 0 || col > SIZE && row < 0 || row > SIZE) {
+		//1) Check if the coordinates given are whithin the gameboard
+		if(col < 0 || col > SIZE || row < 0 || row > SIZE) {
+			System.out.println("Nope, tu es hors du tableau là! ESSAIE ENCORE :");
 			return true;
-		} else {
-			return (gameBoard[row][col] != '_');
+		
+		//2) Check if it's a free spot
+		} else if (gameBoard[row][col] != '_') {
+			System.out.println("Tu ne peux pas mettre ton pion là où il y a déjà un pion enfin! ESSAIE ENCORE :");
+			return true;
 		}
+		return false;
 	}
 
 	private static boolean won(char[][] gameBoard, int col, int row, char player) {
@@ -118,6 +124,7 @@ public class TicTacToe {
 	}
 
 	private static void init(char[][] gameBoard) {
+		// Fill gameboard with _ as delimeters until we replace them throughout the game
 		for(int i = 0; i<SIZE; i++) {
 			for(int j = 0; j<SIZE; j++) {
 				gameBoard[i][j] = '_';
@@ -126,11 +133,14 @@ public class TicTacToe {
 	}
 
 	private static void show(char[][] gameBoard) {
+		//1) Print absciss with tabulation to be in alignment with the rest
 		System.out.print("  ");
 		for(int i = 0; i<SIZE; i++) {
 			System.out.print("_" + (i + 1) + "_ ");
 		}
 		System.out.println();
+		
+		//2) Print content of gameboard with | as delimeters
 		for(int i = 0; i<SIZE; i++) {
 			System.out.print(i + 1 + "| ");
 			for(int j = 0; j<SIZE; j++) {
