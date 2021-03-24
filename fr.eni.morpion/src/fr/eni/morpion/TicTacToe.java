@@ -88,14 +88,23 @@ public class TicTacToe {
 
 	private static boolean won(char[][] gameBoard, int col, int row, char player) {
 		boolean won = false;
-		//1) loop through rows for column where player made last move
 		
+		//1) loop through rows for column where player made last move
+		for (int i = 0; i<SIZE; i++) {
+			won = (gameBoard[i][col] == player);
+		}
 		
 		//2) loop through columns for row where player made move
-		
+		if(!won) {
+			for (int i = 0; i<SIZE; i++) {
+				won = (gameBoard[row][i] == player);
+			}
+		}
 		
 		//3) check for diagonals
-		
+		if(!won) {
+			
+		}
 		return won;
 	}
 
