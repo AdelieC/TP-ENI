@@ -37,7 +37,7 @@ public class Melangeur {
 		final int LENGTH = word.length;
 		for(int i = 0; i < LENGTH / 2; i++) {
 			temp = word[i];
-			word[i] = word[LENGTH - (i + 1)];
+			word[i] = word[(LENGTH -1) - i];
 			word[(LENGTH - 1) - i] = temp;
 		}
 		return String.valueOf(word);
