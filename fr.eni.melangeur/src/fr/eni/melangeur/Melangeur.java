@@ -27,7 +27,7 @@ public class Melangeur {
 		}
 		
 		//3) Show result
-		System.out.println("Votre phrase était : " + input + ". La phrase transformée : " + newSentence);
+		System.out.println("Votre phrase transformée : " + newSentence);
 		scan.close();
 	}
 
