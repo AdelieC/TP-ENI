@@ -47,10 +47,12 @@ public class Lottery {
 
 	private static Boolean compare(int[] draw, int[] grid) {
 		boolean won = false;
-		for(int i = 0; i<draw.length; i++) {
-			for(int j = 0; j<grid.length; j++) {
-				won = (draw[i] == grid[i]);
-			}
+		for(int i = 0, j = 0; i<draw.length; i++) {
+			do {
+				won = (draw[i] == grid[j]);
+				j++;
+			} while(won && j<grid.length);
+			j=0;
 		}
 		return won;
 	}
