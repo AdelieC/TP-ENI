@@ -13,26 +13,42 @@ public class BinaryConverter {
 		//1) Show initialized binary conversion table TABLE:
 		show(TABLE);
 		
-		//2) It's 7am, and I feel like unverdoing it... :
+		//2) It's 7am, and I feel like overdoing it... :
 		max = initMaxNum(SIZE);
-		//1) Ask for random num between 0 and MAX (since we can't use Math, can't use random...what a shaaame :-D!)
+		
+		//3) Ask for random num between 0 and MAX (since we can't use Math, can't use random...what a shaaame :-D!)
 		num = askForNum(max);
 		
-		//2) modulo each digit with 2?
-		
-		
-
+		//4) binarize num and show it
+		showBinary(num);
 	}
-
+	/*
+	 * Prints out binary value of an integer
+	 */
+	private static void showBinary(int num) {
+		int[] bin = new int[SIZE];
+		for(int i = 0; i<SIZE; i++) {
+			bin[i] = 0;
+			if(num/TABLE[i] > 0) {
+				bin[i]++;
+				num -= TABLE[i];
+			}
+			System.out.print(bin[i]);
+		}
+	}
+	/*
+	 * Initializes maximum number the user can ask to show as a binary, based on the size we specified in SIZE
+	 */
 	private static int initMaxNum(int size) {
-		//ok so I don't see how I can avoid using strings here... Minor infringement, right? Forgive me?
 		int[] max = new int[SIZE];
 		for(int i = 0; i<SIZE; i++) {
 			max[i] = 1;
 		}
-		return unBinarize(max) + 1;
+		return unBinarize(max);
 	}
-
+	/*
+	 * Converts an array of integers into a decimal integer
+	 */
 	private static int unBinarize(int[] num) {
 		int dec = 0;
 		for(int i = 0; i<num.length; i++) {
@@ -40,15 +56,21 @@ public class BinaryConverter {
 		}
 		return dec;
 	}
-
+	/*
+	 * @param max maximum int the user can give as input
+	 * Asks the user for input until he enters an int within the specified range between zero and max value.
+	 * @return the int given as input by user if valid.
+	 */
 	private static int askForNum(int max) {
 		int input = 0;
+		String tmp = "";
 		do {
-			if(input > 0) System.out.println("La valeur " + input + " n'est pas autorisée, rééssayez :");
-			System.out.println("Entrez un nombre compris entre 0 et " + max + " :");
-			input = Integer.parseInt(SCAN.next()); SCAN.nextLine();
-		} while(input < 0 || input >= max);
-		return 0;
+			if(input >= 0) System.out.println("La valeur " + input + " n'est pas autorisée, rééssayez :");
+			System.out.println("Entrez un nombre strictement compris entre 0 et " + (max + 1) + " :");
+			tmp = SCAN.next(); SCAN.nextLine();
+			input = tmp.matches("[0-9]")? Integer.parseInt(tmp) : 0;
+		} while(input <= 0 || input > max);
+		return input;
 	}
 
 	private static void show(int[] table) {
