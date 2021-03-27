@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Hangman {
 	public final static Scanner SC = new Scanner(System.in);
-	public final static String[] HANGING_QUOTE = {"Il", "ne", "faut", "pas", "parler", "de", "mort", "devant", "un", "pendu"};
+	public final static String[] HANGING_QUOTE = {"IL", "NE", "FAUT", "PAS", "PARLER", "DE", "MORT", "DEVANT", "UN", "PENDU"};
 	public final static String[] RANDOM = {"JAVASCRIPT", "INTERFACE", "COMPILATEUR", "PROGRAMMATION", "DEVELOPPEUR", "CONSOLE", "CONCEVOIR", "STRUCTURER", "INCREMENTER"};
 	
 	public static void main(String[] args) {
@@ -21,11 +21,11 @@ public class Hangman {
 			random = askForRandom();
 			
 			//2) Get the word to guess, and create hidden version of it
-			word = random? getRandomWord() : askForWord();
+			word = random ? getRandomWord() : askForWord();
 			hiddenWord = hide(word);
 			
 			//3) Magically erase console (with messages to explain what happened!)
-			magicalEraser();
+			if(!random) magicalEraser();
 			
 			//4) Show initial state of the game
 			showStateOfGame(hiddenWord, dead, lettersGiven);
@@ -43,17 +43,17 @@ public class Hangman {
 				}
 				
 				//c) If updated hiddenWord is the same as the word to guess, it's victory!
-				won = (hiddenWord == word);
+				won = (hiddenWord.equals(word));
 				
 				//d) We show player the state of the game : updated hiddenWord and how dead he is.
 				showStateOfGame(hiddenWord, dead, lettersGiven);
-			} while(!won && dead < 11);
+			} while(!won && dead < 10);
 			
 			//6) Show final message to user depending on the outcome (won or dead) and ask continue/quit
 			quit = finalMessage(won);
 		} while(!quit);
 		
-		System.out.println("Merci d'avoir joué à ce petit jeu sans prétention :-) À bientôt!");
+		System.out.println("Merci d'avoir joué à ce petit jeu pas vraiment passionnant :-) À bientôt!");
 		SC.close();
 	}
 	
@@ -64,16 +64,16 @@ public class Hangman {
 
 	private static boolean askForRandom() {
 		String input = "";
-		System.out.println("Choississez le nombre de joueurs :");
+		System.out.println("Choisis le nombre de joueurs :");
 		System.out.println("1 - Un seul joueur");
 		System.out.println("2 - Deux joueurs");
 		input = SC.nextLine();
-		if(!input.matches("12{1}")) {
-			System.out.println("Vous avez entré un choix erroné. Réessayez :");
+		if(!input.matches("1|2")) {
+			System.out.println("Tu as entré un choix erroné. Réessaie :");
 			askForRandom();
 		}
 		System.out.println();
-		return input == "1";
+		return input.contains("1");
 	}
 
 	/**
@@ -89,19 +89,29 @@ public class Hangman {
 			System.out.println("1 - REJOUER");
 			System.out.println("2 - QUITTER");
 			input = SC.nextLine();
-		} while(!input.matches("12{1}"));
-		return input == "2";
+		} while(!input.matches("1|2"));
+		return input.contains("2");
 	}
 
 	private static void showStateOfGame(String hiddenWord, int dead, String lettersGiven) {
-		System.out.println("Voici où vous en êtes dans la phrase du pendu :");
-		for(int i = 0; i<dead; i++) {
-			System.out.print(HANGING_QUOTE[i] + " ");
+		if(!lettersGiven.isBlank()) {
+			System.out.println("Voici où tu en es dans la phrase du pendu (trop compliqué de coder un vrai dessin de pendu) :");
+			System.out.println("\"");
+			for(int i = 0; i<dead; i++) {
+				System.out.print(HANGING_QUOTE[i] + " ");
+			}
+			System.out.println();
+			System.out.println("\"");
+			System.out.println("Tu as déjà donné les lettres suivantes : " + lettersGiven);
+			System.out.println("Il te reste encore " + (HANGING_QUOTE.length - dead) + " chances pour trouver les autres lettres!");
+			System.out.println();
 		}
-		if(!lettersGiven.isBlank()) System.out.println("Vous avez déjà donné les lettres suivantes : " + lettersGiven);
-		System.out.println("Il vous reste encore... " + (HANGING_QUOTE.length - dead) + "chances pour trouver les autres lettres!");
-		System.out.println("À vous de jouer :");
-		System.out.println("Votre mot :" + hiddenWord);
+		System.out.println("Le mot que tu dois trouver :");
+		for(int j = 0; j<hiddenWord.length(); j++) {
+			System.out.print(hiddenWord.charAt(j) + " ");
+		}
+		System.out.println();
+		System.out.println();
 	}
 
 	private static String update(String hiddenWord, String word, char letter) {
@@ -114,14 +124,14 @@ public class Hangman {
 
 	private static String askForLetter(String lettersGiven) {
 		String letter = "";
-		System.out.println("Tentez votre chance et entrez une lettre de l'alphabet (sans accents svp) :");
+		System.out.println("Tentes ta chance et entre une lettre de l'alphabet (sans accents stp) :");
 		letter = SC.nextLine();
 		if(!letter.matches("[a-zA-Z]{1}")) {
-			System.out.println("Ce que vous avez saisi n'est pas une lettre valide. Réessayez.");
+			System.out.println("Ce que tu as saisi n'est pas une lettre valide. Réessaie.");
 			askForLetter(lettersGiven);
 		}
 		if(lettersGiven.contains(letter)) {
-			System.out.println("Vous avez déjà donné cette lettre. Réessayez.");
+			System.out.println("Tu as déjà donné cette lettre. Réessaie.");
 			askForLetter(lettersGiven);
 		}
 		System.out.println();
@@ -147,7 +157,7 @@ public class Hangman {
 	 * (in eclipse : sysout multiple blank lines)
 	 */
 	public static void magicalEraser() {
-		System.out.println("Merci ! Maintenant nous allons effacer l'écran pour que vous laissiez la place à votre adversaire en toute sécurité.");
+		System.out.println("Merci ! Maintenant nous allons effacer l'écran pour que le mot reste secret.");
 		for(int i = 0; i<15; i++) {
 			try {
 				Thread.sleep(300);
