@@ -31,30 +31,32 @@ public class Lottery {
 		show(mainDraw, msgMainD);
 		show(chceDraw, msgChceD);
 		
-		//6) Get results
-		won = compare(mainDraw, mainGrid);
-		jackpot = compare(chceDraw, chceGrid) && won;
+		//6) Get results of searches for draws in grids
+		won = findInside(mainGrid, mainDraw);
+		jackpot = findInside(chceGrid, chceDraw) && won;
 		
-		//7) Show results
+		//7) Show message depending on result
 		System.out.println(getMsg(won, jackpot));
 		
 		SC.close();
 	}
 
 	private static String getMsg(boolean won, boolean jackpot) {
-		return jackpot? "INCROYABLE!! Vous remportez le jackpot!!!": (won? "Bravo! Vous avez gagné!" : "Pas de chance, c'est PERDU.");		
+		return jackpot? "INCROYABLE!! Vous remportez le jackpot!!!": (won ? "Bravo! Vous avez gagné!" : "Pas de chance, c'est PERDU.");		
 	}
 
-	private static Boolean compare(int[] draw, int[] grid) {
-		boolean won = false;
-		for(int i = 0, j = 0; i<draw.length; i++) {
+	private static Boolean findInside(int[] grid, int[] draw) {
+		boolean found = false;
+		int i=0, j=0;
+		do {
 			do {
-				won = (draw[i] == grid[j]);
+				found = (draw[i] == grid[j]);
 				j++;
-			} while(won && j<grid.length);
+			} while(j<grid.length && !found);
 			j=0;
-		}
-		return won;
+			i++;
+		} while(i<draw.length && found);
+		return found;
 	}
 
 	private static void askForDraw() {
