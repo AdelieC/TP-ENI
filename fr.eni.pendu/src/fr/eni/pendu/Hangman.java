@@ -57,11 +57,19 @@ public class Hangman {
 		SC.close();
 	}
 	
+	/**
+	 * Generates random word
+	 * @return String random word taken in collection RANDOM
+	 */
 	private static String getRandomWord() {
 		Random rd = new Random();
 		return RANDOM[rd.nextInt(RANDOM.length-1)];
 	}
 
+	/**
+	 * Asks the user if he wants a "randomly generated" word to guess or if he wants to play with someone
+	 * @return boolean random true if user chooses to play alone
+	 */
 	private static boolean askForRandom() {
 		String input = "";
 		System.out.println("Choisis le nombre de joueurs :");
@@ -93,6 +101,12 @@ public class Hangman {
 		return input.contains("2");
 	}
 
+	/**
+	 * Prints out letters found, word to find, chances left, how far advanced the player is in the "death" sentence etc..
+	 * @param String hiddenWord
+	 * @param int dead counter of failures
+	 * @param String letters given in previous attempts
+	 */
 	private static void showStateOfGame(String hiddenWord, int dead, String lettersGiven) {
 		if(!lettersGiven.isBlank()) {
 			System.out.println("Voici où tu en es dans la phrase du pendu (trop compliqué de coder un vrai dessin de pendu) :");
@@ -114,6 +128,13 @@ public class Hangman {
 		System.out.println();
 	}
 
+	/**
+	 * Updates hiddenWord with new letter
+	 * @param String hiddenWord
+	 * @param String word
+	 * @param char letter
+	 * @return String hiddenWord
+	 */
 	private static String update(String hiddenWord, String word, char letter) {
 		char[] temp = hiddenWord.toCharArray();
 		for(int i = 0; i<word.length(); i++) {
@@ -122,6 +143,11 @@ public class Hangman {
 		return String.valueOf(temp);
 	}
 
+	/**
+	 * Asks player to give a letter until he gives a valid one
+	 * @param String letters given previously
+	 * @return String new letter
+	 */
 	private static String askForLetter(String lettersGiven) {
 		String letter = "";
 		System.out.println("Tentes ta chance et entre une lettre de l'alphabet (sans accents stp) :");
