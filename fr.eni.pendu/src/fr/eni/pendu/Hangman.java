@@ -1,5 +1,6 @@
 package fr.eni.pendu;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Hangman {
@@ -8,44 +9,44 @@ public class Hangman {
 	public final static String[] RANDOM = {"JAVASCRIPT", "INTERFACE", "COMPILATEUR", "PROGRAMMATION", "DEVELOPPEUR", "CONSOLE", "CONCEVOIR", "STRUCTURER", "INCREMENTER"};
 	
 	public static void main(String[] args) {
-		boolean quit = true, won;
-		String word = "", hiddenWord = "", letter = "", wrongLetters = "";
+		boolean quit = true, random, won;
+		String word = "", hiddenWord = "", letter = "", lettersGiven = "";
 		int dead;
 		
 		do {
 			dead = 0;
-			won = false;
+			won = random = false;
 			
 			//1) Ask if 2 players or "random" word
+			random = askForRandom();
 			
-			//2) Ask first player for a word, and create hidden version of it
-			word = askForWord();
+			//2) Get the word to guess, and create hidden version of it
+			word = random? getRandomWord() : askForWord();
 			hiddenWord = hide(word);
 			
 			//3) Magically erase console (with messages to explain what happened!)
 			magicalEraser();
 			
 			//4) Show initial state of the game
-			showStateOfGame(hiddenWord, dead, wrongLetters);
+			showStateOfGame(hiddenWord, dead, lettersGiven);
 			
 			//5) doWhile loop
 			do {
 				//a) Ask player 2 for a letter until we get a valid one
-				letter = askForLetter();
-				
+				letter = askForLetter(lettersGiven);
+				lettersGiven += letter;
 				//b) If it's a lucky guess, we update hiddenWord, else we increment dead
 				if(word.contains(letter)) {
 					hiddenWord = update(hiddenWord, word, letter.charAt(0));
 				} else {
 					dead++;
-					wrongLetters += letter;
 				}
 				
 				//c) If updated hiddenWord is the same as the word to guess, it's victory!
 				won = (hiddenWord == word);
 				
 				//d) We show player the state of the game : updated hiddenWord and how dead he is.
-				showStateOfGame(hiddenWord, dead, wrongLetters);
+				showStateOfGame(hiddenWord, dead, lettersGiven);
 			} while(!won && dead < 11);
 			
 			//6) Show final message to user depending on the outcome (won or dead) and ask continue/quit
@@ -56,6 +57,25 @@ public class Hangman {
 		SC.close();
 	}
 	
+	private static String getRandomWord() {
+		Random rd = new Random();
+		return RANDOM[rd.nextInt(RANDOM.length-1)];
+	}
+
+	private static boolean askForRandom() {
+		String input = "";
+		System.out.println("Choississez le nombre de joueurs :");
+		System.out.println("1 - Un seul joueur");
+		System.out.println("2 - Deux joueurs");
+		input = SC.nextLine();
+		if(!input.matches("12{1}")) {
+			System.out.println("Vous avez entré un choix erroné. Réessayez :");
+			askForRandom();
+		}
+		System.out.println();
+		return input == "1";
+	}
+
 	/**
 	 * Prints out appropriate message according to outcome given as param, and returns choice to quit or keep playing
 	 * @param boolean won
@@ -73,12 +93,12 @@ public class Hangman {
 		return input == "2";
 	}
 
-	private static void showStateOfGame(String hiddenWord, int dead, String wrongLetters) {
+	private static void showStateOfGame(String hiddenWord, int dead, String lettersGiven) {
 		System.out.println("Voici où vous en êtes dans la phrase du pendu :");
 		for(int i = 0; i<dead; i++) {
 			System.out.print(HANGING_QUOTE[i] + " ");
 		}
-		if(!wrongLetters.isBlank()) System.out.println("Vous avez déjà essayé les lettres suivantes : " + wrongLetters);
+		if(!lettersGiven.isBlank()) System.out.println("Vous avez déjà donné les lettres suivantes : " + lettersGiven);
 		System.out.println("Il vous reste encore... " + (HANGING_QUOTE.length - dead) + "chances pour trouver les autres lettres!");
 		System.out.println("À vous de jouer :");
 		System.out.println("Votre mot :" + hiddenWord);
@@ -92,11 +112,18 @@ public class Hangman {
 		return String.valueOf(temp);
 	}
 
-	private static String askForLetter() {
+	private static String askForLetter(String lettersGiven) {
 		String letter = "";
 		System.out.println("Tentez votre chance et entrez une lettre de l'alphabet (sans accents svp) :");
 		letter = SC.nextLine();
-		if(!letter.matches("[a-zA-Z]{1}")) askForLetter();
+		if(!letter.matches("[a-zA-Z]{1}")) {
+			System.out.println("Ce que vous avez saisi n'est pas une lettre valide. Réessayez.");
+			askForLetter(lettersGiven);
+		}
+		if(lettersGiven.contains(letter)) {
+			System.out.println("Vous avez déjà donné cette lettre. Réessayez.");
+			askForLetter(lettersGiven);
+		}
 		System.out.println();
 		return letter.toUpperCase();
 	}
