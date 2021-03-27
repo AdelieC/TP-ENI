@@ -3,49 +3,104 @@ package fr.eni.pendu;
 import java.util.Scanner;
 
 public class Hangman {
-	public static Scanner SC = new Scanner(System.in);
+	public final static Scanner SC = new Scanner(System.in);
+	public final static String[] HANGING_QUOTE = {"Il", "ne", "faut", "pas", "parler", "de", "mort", "devant", "un", "pendu"};
+	public final static String[] RANDOM = {"JAVASCRIPT", "INTERFACE", "COMPILATEUR", "PROGRAMMATION", "DEVELOPPEUR", "CONSOLE", "CONCEVOIR", "STRUCTURER", "INCREMENTER"};
 	
 	public static void main(String[] args) {
-		boolean quit = true, won, dead;
-		String word = "", hiddenWord = "", letter = "";
+		boolean quit = true, won;
+		String word = "", hiddenWord = "", letter = "", wrongLetters = "";
+		int dead;
 		
 		do {
-			won = dead = false;
+			dead = 0;
+			won = false;
 			
-			//1) Ask first player for a word, and create hidden version of it
+			//1) Ask if 2 players or "random" word
+			
+			//2) Ask first player for a word, and create hidden version of it
 			word = askForWord();
 			hiddenWord = hide(word);
 			
-			//2) Magically erase console (with messages to explain what happened!)
+			//3) Magically erase console (with messages to explain what happened!)
 			magicalEraser();
 			
-			//3) doWhile loop
+			//4) Show initial state of the game
+			showStateOfGame(hiddenWord, dead, wrongLetters);
+			
+			//5) doWhile loop
 			do {
-				//a) Ask player 2 for a letter, check if letter is in word, and tell player
-				hiddenWord = guessLetterIn(word);
-				/*
-				//c) Show player updated word to guess + how "hung" he is
-				won = revealed(hiddenWord, word);
-				if(!won) count++;
-				dead = 
-				 */
-			} while(!won && !dead);
+				//a) Ask player 2 for a letter until we get a valid one
+				letter = askForLetter();
+				
+				//b) If it's a lucky guess, we update hiddenWord, else we increment dead
+				if(word.contains(letter)) {
+					hiddenWord = update(hiddenWord, word, letter.charAt(0));
+				} else {
+					dead++;
+					wrongLetters += letter;
+				}
+				
+				//c) If updated hiddenWord is the same as the word to guess, it's victory!
+				won = (hiddenWord == word);
+				
+				//d) We show player the state of the game : updated hiddenWord and how dead he is.
+				showStateOfGame(hiddenWord, dead, wrongLetters);
+			} while(!won && dead < 11);
 			
-			//4) If hung or won, show msg
-			
-			//5) Replay or quit?
-			 
-			
+			//6) Show final message to user depending on the outcome (won or dead) and ask continue/quit
+			quit = finalMessage(won);
 		} while(!quit);
 		
-		
+		System.out.println("Merci d'avoir joué à ce petit jeu sans prétention :-) À bientôt!");
 		SC.close();
 	}
 	
-	private static String guessLetterIn(String word) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Prints out appropriate message according to outcome given as param, and returns choice to quit or keep playing
+	 * @param boolean won
+	 * @return boolean quit
+	 */
+	private static boolean finalMessage(boolean won) {
+		String input = "";
+		System.out.println(won?"Bravooo tu as trouvé le mot!!" : "Awwww désolé, tu es pendu!");
+		do {
+			System.out.println("Est-ce que tu veux rejouer?");
+			System.out.println("1 - REJOUER");
+			System.out.println("2 - QUITTER");
+			input = SC.nextLine();
+		} while(!input.matches("12{1}"));
+		return input == "2";
 	}
+
+	private static void showStateOfGame(String hiddenWord, int dead, String wrongLetters) {
+		System.out.println("Voici où vous en êtes dans la phrase du pendu :");
+		for(int i = 0; i<dead; i++) {
+			System.out.print(HANGING_QUOTE[i] + " ");
+		}
+		if(!wrongLetters.isBlank()) System.out.println("Vous avez déjà essayé les lettres suivantes : " + wrongLetters);
+		System.out.println("Il vous reste encore... " + (HANGING_QUOTE.length - dead) + "chances pour trouver les autres lettres!");
+		System.out.println("À vous de jouer :");
+		System.out.println("Votre mot :" + hiddenWord);
+	}
+
+	private static String update(String hiddenWord, String word, char letter) {
+		char[] temp = hiddenWord.toCharArray();
+		for(int i = 0; i<word.length(); i++) {
+			if(word.charAt(i) == letter) temp[i] = letter;
+		}
+		return String.valueOf(temp);
+	}
+
+	private static String askForLetter() {
+		String letter = "";
+		System.out.println("Tentez votre chance et entrez une lettre de l'alphabet (sans accents svp) :");
+		letter = SC.nextLine();
+		if(!letter.matches("[a-zA-Z]{1}")) askForLetter();
+		System.out.println();
+		return letter.toUpperCase();
+	}
+
 
 	/**
 	 * Creates hidden version of word to guess + puts enough empty space inside console to hide word entered from view
@@ -95,7 +150,7 @@ public class Hangman {
 		word = SC.nextLine();
 		if(!word.matches("[a-zA-Z]{4,25}")) askForWord();
 		System.out.println();
-		return word;
+		return word.toUpperCase();
 	}
 
 }
