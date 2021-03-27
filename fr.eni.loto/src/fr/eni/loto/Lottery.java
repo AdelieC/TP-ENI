@@ -12,7 +12,7 @@ public class Lottery {
 		String msgMainD = "Le tirage gagnant est :", msgChceD = "Le numéro complémentaire est le :";
 		boolean won = false, jackpot = false;
 		
-		//1) Initialize main grid size 50 + complementary grid size 10
+		//1) Initialize main grid size 50 + complementary grid size 10 (osef the rules!)
 		mainGrid  = generate(mainGrid);
 		chceGrid = generate(chceGrid);
 		
@@ -41,10 +41,22 @@ public class Lottery {
 		SC.close();
 	}
 
+	/*
+	 * Depending on outcomes taken in as params, this method gives back a string message to show the user
+	 * @param won boolean
+	 * @param jackpot boolean
+	 * @return msg string
+	 */
 	private static String getMsg(boolean won, boolean jackpot) {
 		return jackpot? "INCROYABLE!! Vous remportez le jackpot!!!": (won ? "Bravo! Vous avez gagné!" : "Pas de chance, c'est PERDU.");		
 	}
 
+	/*
+	 * Tells you if all integers of a small array can be found in a bigger array
+	 * @param grid big array of integers we want to search for all the integers in smaller one
+	 * @param draw small array of integers we want to find in array "grid"
+	 * @return boolean true if every integer of small array was found in big array
+	 */
 	private static Boolean findInside(int[] grid, int[] draw) {
 		boolean found = false;
 		int i=0, j=0;
@@ -58,12 +70,20 @@ public class Lottery {
 		} while(i<draw.length && found);
 		return found;
 	}
-
+	
+	/*
+	 * Asks user to press enter to continue main method (mimics gaming machines button)
+	 */
 	private static void askForDraw() {
 		System.out.println("Appuyez sur ENTRÉÉ pour effectuer le tirage au sort.");
 		SC.nextLine();
 	}
-
+	
+	/*
+	 * Shows array of integers with corresponding string description. Max num of ints on each line is 10 and each int is separated with |.
+	 * @param grid array of integers to show
+	 * @param msg string description corresponding to the array
+	 */
 	private static void show(int[] grid, String msg) {
 		System.out.println(msg);
 		System.out.print("| ");
@@ -77,7 +97,12 @@ public class Lottery {
 		System.out.println();
 		System.out.println();
 	}
-
+	
+	/*
+	 * Fills initialized arrays with random integers between 100 and 200
+	 * @param grid empty array of integers
+	 * @return array of random integers
+	 */
 	private static int[] generate(int[] grid) {
 		Random x = new Random();
 		for(int i = 0; i<grid.length; i++) {
