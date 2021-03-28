@@ -35,7 +35,7 @@ public class Fibonacci {
 		end = System.nanoTime();
 		System.out.println();
 		System.out.println("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――");
-		System.out.println("Temps d'exécution avec for loop et BigInts : " + (end - start) / 1000000 + " millisecondes");
+		System.out.println("Temps d'exécution avec récursion et longs : " + (end - start) / 1000000 + " millisecondes");
 		System.out.println("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――");
 	}
 
