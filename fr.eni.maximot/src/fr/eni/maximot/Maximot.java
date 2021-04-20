@@ -90,7 +90,7 @@ public class Maximot {
 		String word = "";
 		try(FileInputStream dictionnary = new FileInputStream(path)) {
 			Scanner reader = new Scanner(dictionnary);
-			int rand = new Random().nextInt(22507);
+			int rand = new Random().nextInt(countLinesIn(path));
 			for(int i = 0; i<rand; i++)
 				reader.nextLine();
 			word = reader.nextLine().toUpperCase();
@@ -100,5 +100,21 @@ public class Maximot {
 			System.err.println("Impossible de générer le mot demandé : le fichier " + path + " n'a pas pu être lu.");
 		}
 		return word;
+	}
+
+	private static int countLinesIn(String path) {
+		int counter = 0;
+		try(FileInputStream dictionnary = new FileInputStream(path)) {
+			Scanner reader = new Scanner(dictionnary);
+			while(reader.hasNextLine()) {
+				reader.nextLine();
+				counter++;
+			}
+		} catch(FileNotFoundException e) {
+			System.err.println("Impossible de générer le mot demandé : le fichier " + path + " n'a pas été trouvé.");
+		} catch(IOException e) {
+			System.err.println("Impossible de générer le mot demandé : le fichier " + path + " n'a pas pu être lu.");
+		}
+		return counter;
 	}
 }
