@@ -12,6 +12,7 @@ public class Patient {
 	private char sexe;
 	private long numSecu = 0l;
 	private LocalDate dateNaissance;
+	private Adresse adresse;
 	
 	/**
 	 * @param nom
@@ -21,7 +22,7 @@ public class Patient {
 	 * @param numSecu
 	 * @param dateNaissance
 	 */
-	public Patient(String nom, String prenom, String num, char sexe, long numSecu, LocalDate dateNaissance, String commentaires) {
+	public Patient(String nom, String prenom, String num, char sexe, long numSecu, LocalDate dateNaissance, String commentaires, Adresse adresse) {
 		this.nom = nom.toUpperCase();
 		this.prenom = prenom;
 		this.num = num;
@@ -29,6 +30,7 @@ public class Patient {
 		this.numSecu = numSecu;
 		this.dateNaissance = dateNaissance;
 		this.commentaires = commentaires;
+		this.adresse = adresse;
 	}
 
 	/**
@@ -128,10 +130,12 @@ public class Patient {
 
 	public void afficher() {
 		System.out.println(this.getNom());
-		System.out.println("Téléphone : " + this.getNum());
-		System.out.println("Sexe : " + (this.getSexe() == 'F'? "Féminin" : "Masculin"));
-		System.out.println("Numéro de sécurité sociale : : " + this.getNumSecu());
+		System.out.println("Téléphone : " + this.num);
+		System.out.println("Sexe : " + (this.sexe == 'F'? "Féminin" : "Masculin"));
+		System.out.println("Numéro de sécurité sociale : : " + this.numSecu);
 		System.out.println("Date de naissance : " + this.dateNaissanceToString());
 		System.out.println(this.commentaires != null ? this.commentaires : "[aucun commentaire]");
+		System.out.println("Adresse :");
+		this.adresse.afficher();
 	}
 }

@@ -103,10 +103,10 @@ public class Adresse {
 	}
 	
 	public void afficher() {
-		if(this.mentionsComplementaires != null) System.out.println(this.getMentionsComplementaires());
-		System.out.println(this.getNumero() + " "
+		if(this.mentionsComplementaires != null) System.out.println(this.mentionsComplementaires);
+		System.out.println(this.numero + " "
 							+ ((this.complNumero != null) ? this.complNumero : "")
-							+ this.getRue());
-		System.out.println(this.getCp() + " " + this.getVille());
+							+ this.rue);
+		System.out.println(this.cp + " " + this.ville);
 	}
 }
