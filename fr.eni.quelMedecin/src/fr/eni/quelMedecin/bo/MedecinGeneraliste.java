@@ -1,36 +1,23 @@
 package fr.eni.quelMedecin.bo;
 
-public class MedecinGeneraliste {
-	private final static int MAXCRENEAUX = 15;
-	private static int tarif = 25;
-	private String nom = "", prenom = "", num = "";
-	private Adresse adresse;
-	private Creneau[] creneaux = new Creneau[MAXCRENEAUX];
-	private int nombreCreneaux = 0;
+public class MedecinGeneraliste extends Personne {
+	protected final static int MAXCRENEAUX = 15;
+	protected int tarif;
+	protected Creneau[] creneaux = new Creneau[MAXCRENEAUX];
+	protected int nombreCreneaux = 0;
+	
 	
 	/**
 	 * @param nom
 	 * @param prenom
 	 * @param num
+	 * @param adresse
 	 */
 	public MedecinGeneraliste(String nom, String prenom, String num, Adresse adresse) {
-		this.nom = nom.toUpperCase();
-		this.prenom = prenom;
-		this.num = num;
-		this.adresse = adresse;
+		super(nom, prenom, num, adresse);
+		this.tarif = 25;
 	}
-	
-	public void afficher() {
-		System.out.println(this.nom + " " + this.prenom);
-		System.out.println("Téléphone : " + this.num);
-		System.out.println("Tarif : " + MedecinGeneraliste.tarif + " euros");
-		System.out.println("Adresse :");
-		this.adresse.afficher();
-		System.out.println("Créneaux :");
-		for(Creneau creneau : this.creneaux)
-			if(creneau != null) creneau.afficher();
-	}
-	
+
 	public void ajouterCreneau(Creneau creneau) {
 		if(this != creneau.getMedecin()) {
 			System.err.println("Erreur : le médecin ne correspond pas au créneau que vous souhaitez ajouter.");
@@ -46,37 +33,23 @@ public class MedecinGeneraliste {
 	 * @return the tarif
 	 */
 	public int getTarif() {
-		return MedecinGeneraliste.tarif;
+		return this.tarif;
 	}
 	
 	/**
 	 * @param tarif the tarif to set
 	 */
-	public static void setTarif(int tarif) {
-		MedecinGeneraliste.tarif = tarif;
-	}
-	
-	/**
-	 * @return the nom
-	 */
-	public String getNom() {
-		return this.nom;
-	}
-	
-	/**
-	 * @return the num
-	 */
-	public String getNum() {
-		return this.num;
-	}
-	
-	/**
-	 * @param num the num to set
-	 */
-	public void setNum(String num) {
-		this.num = num;
+	public void setTarif(int tarif) {
+		this.tarif = tarif;
 	}
 	
 	
+	public void afficher() {
+		super.afficher();
+		System.out.println("Tarif : " + this.tarif + " euros");
+		System.out.println("Créneaux :");
+		for(Creneau creneau : this.creneaux)
+			if(creneau != null) creneau.afficher();
+	}
 	
 }

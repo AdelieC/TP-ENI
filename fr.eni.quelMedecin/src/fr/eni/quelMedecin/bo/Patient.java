@@ -4,70 +4,31 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-public class Patient {
-	private String nom = "",
-			prenom = "",
-			num = "",
-			commentaires = "";
+public class Patient extends Personne {
+	private String commentaires = "";
 	private char sexe;
 	private long numSecu = 0l;
 	private LocalDate dateNaissance;
-	private Adresse adresse;
 	
+
 	/**
 	 * @param nom
 	 * @param prenom
 	 * @param num
+	 * @param adresse
+	 * @param commentaires
 	 * @param sexe
 	 * @param numSecu
 	 * @param dateNaissance
 	 */
 	public Patient(String nom, String prenom, String num, char sexe, long numSecu, LocalDate dateNaissance, String commentaires, Adresse adresse) {
-		this.nom = nom.toUpperCase();
-		this.prenom = prenom;
-		this.num = num;
+		super(nom, prenom, num, adresse);
+		this.commentaires = commentaires;
 		this.sexe = sexe;
 		this.numSecu = numSecu;
 		this.dateNaissance = dateNaissance;
-		this.commentaires = commentaires;
-		this.adresse = adresse;
-	}
-
-	/**
-	 * @return the nom
-	 */
-	public String getNom() {
-		return this.nom + " " + this.prenom;
-	}
-
-	/**
-	 * @param nom the nom to set
-	 */
-	public void setNom(String nom) {
-		this.nom = nom;
 	}
 	
-	/**
-	 * @param prenom the prenom to set
-	 */
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	/**
-	 * @return the num
-	 */
-	public String getNum() {
-		return this.num;
-	}
-
-	/**
-	 * @param num the num to set
-	 */
-	public void setNum(String num) {
-		this.num = num;
-	}
-
 	/**
 	 * @return the sexe
 	 */
@@ -129,13 +90,10 @@ public class Patient {
 	}
 
 	public void afficher() {
-		System.out.println(this.getNom());
-		System.out.println("Téléphone : " + this.num);
+		super.afficher();
 		System.out.println("Sexe : " + (this.sexe == 'F'? "Féminin" : "Masculin"));
 		System.out.println("Numéro de sécurité sociale : : " + this.numSecu);
 		System.out.println("Date de naissance : " + this.dateNaissanceToString());
 		System.out.println(this.commentaires != null ? this.commentaires : "[aucun commentaire]");
-		System.out.println("Adresse :");
-		this.adresse.afficher();
 	}
 }

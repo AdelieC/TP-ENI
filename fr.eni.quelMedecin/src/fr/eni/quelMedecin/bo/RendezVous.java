@@ -26,7 +26,7 @@ public class RendezVous {
 					+ " à ");
 		this.creneau.afficher();
 		System.out.println("Avec le Docteur "
-					+ this.creneau.getMedecin());
+					+ this.creneau.getMedecin().getNom());
 		System.out.print("Pour ");
 		this.patient.afficher();
 	}
