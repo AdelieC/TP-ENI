@@ -14,7 +14,7 @@ public abstract class Cycle {
 	 * @param dateAchat
 	 * @param tarif
 	 */
-	public Cycle(String marque, String modele, LocalDate dateAchat, float tarif) {
+	public Cycle(LocalDate dateAchat, String marque, String modele, float tarif) {
 		this.marque = marque;
 		this.modele = modele;
 		this.dateAchat = dateAchat;
@@ -31,9 +31,9 @@ public abstract class Cycle {
 		return this.marque
 				+ " "
 				+ this.modele
-				+ " ( " + this.getAge() + " ) "
+				+ " ( " + this.getAge() + " ans ) "
 				+ this.infos
-				+ "-> "
+				+ " -> "
 				+ Cycle.tarif
 				+ " euros/H";
 	}

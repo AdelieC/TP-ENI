@@ -6,13 +6,13 @@ public class Gyroroue extends Cycle implements Gyro {
 	private int autonomie;
 
 	/**
-	 * @param marque
-	 * @param modele
 	 * @param dateAchat
+	 * @param modele
+	 * @param marque
 	 * @param autonomie
 	 */
-	public Gyroroue(String marque, String modele, LocalDate dateAchat, int autonomie) {
-		super(marque, modele, dateAchat, tarif);
+	public Gyroroue(LocalDate dateAchat, String modele, String marque, int autonomie) {
+		super(dateAchat, marque, modele, tarif);
 		this.autonomie = autonomie;
 		this.addInfos(Integer.toString(autonomie) + " km d'autonomie");
 	}
@@ -24,5 +24,9 @@ public class Gyroroue extends Cycle implements Gyro {
 
 	public int getAutonomie() {
 		return this.autonomie;
+	}
+	public void afficher() {
+		System.out.print("Gyroroue ");
+		super.afficher();
 	}
 }

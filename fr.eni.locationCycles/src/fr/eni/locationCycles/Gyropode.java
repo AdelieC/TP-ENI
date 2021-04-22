@@ -7,13 +7,13 @@ public class Gyropode extends Cycle implements Gyro {
 	private float tailleMin;
 	
 	/**
-	 * @param marque
-	 * @param modele
 	 * @param dateAchat
+	 * @param modele
+	 * @param marque
 	 * @param autonomie
 	 */
-	public Gyropode(String marque, String modele, LocalDate dateAchat, int autonomie, float tailleMin) {
-		super(marque, modele, dateAchat, tarif);
+	public Gyropode(LocalDate dateAchat, String modele, String marque, int autonomie, float tailleMin) {
+		super(dateAchat, marque, modele, tarif);
 		this.autonomie = autonomie;
 		this.addInfos(Integer.toString(autonomie) + " km d'autonomie");
 		this.addInfos("[" + Float.toString(tailleMin) + " minimum]");
@@ -26,5 +26,9 @@ public class Gyropode extends Cycle implements Gyro {
 
 	public int getAutonomie() {
 		return this.autonomie;
+	}
+	public void afficher() {
+		System.out.print("Gyropode ");
+		super.afficher();
 	}
 }
