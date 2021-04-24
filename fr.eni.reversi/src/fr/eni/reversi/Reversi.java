@@ -9,13 +9,15 @@ public class Reversi {
 		
 		do {
 			plateau = new Plateau();
-			do {
+			plateau.afficher();
+			/*do {
 				plateau.jouer(joueur1);
 				
 				plateau.jouer(joueur2);
-			} while(!gagne);
-			quitter = demanderSiOnContinue();
+			} while(!gagne);*/
+			quitter = Outils.quitter();
 		} while(!quitter);
+		Outils.closeScan();
 
 	}
 
