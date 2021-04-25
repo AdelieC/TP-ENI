@@ -32,19 +32,13 @@ public enum Pion {
 		Pion.LIBRE.nombre--;
 	}
 	
-	public static void setJoueur(int mode) {
-		switch(mode) {
-			case 1:
-				Pion.NOIR.joueur = new JoueurHumain();
-				Pion.BLANC.joueur = new JoueurHumain();
-				break;
-			case 2:
-				Pion.NOIR.joueur = new JoueurHumain();
-				Pion.BLANC.joueur = new JoueurMachine();
-				break;
-			default:
-				System.err.println("Erreur : le mode choisi n'est pas reconnu...");
-				break;
+	public static void setJoueur(boolean modeIA) {
+		if(modeIA) {
+			Pion.NOIR.joueur = new JoueurHumain();
+			Pion.BLANC.joueur = new JoueurMachine();
+		} else {
+			Pion.NOIR.joueur = new JoueurHumain();
+			Pion.BLANC.joueur = new JoueurHumain();
 		}
 	}
 }
