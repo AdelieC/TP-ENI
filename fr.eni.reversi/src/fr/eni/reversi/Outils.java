@@ -5,6 +5,20 @@ import java.util.Scanner;
 public abstract class Outils {
 	private final static Scanner SCAN = new Scanner(System.in);
 	
+	public static void welcomeMsg(String nomApp, String but, String regle1, String regle2, String regle3) {
+		System.out.println("***************************************************************************");
+		System.out.println("              Bonjour et bienvenue dans ce jeu de " + nomApp + "!!");
+		System.out.println("***************************************************************************");
+		System.out.println("Les règles sont simples :");
+		System.out.println("Il s'agit de " + but);
+		System.out.println(regle1);
+		System.out.println(regle2);
+		System.out.println(regle3);
+		System.out.println();
+		System.out.println("                            BONNE CHANCE!!");
+		System.out.println("***************************************************************************");
+		System.out.println();
+	}
 	public static String getInputString(String msg) {
 		String tmp = "";
 		boolean valide = false;
