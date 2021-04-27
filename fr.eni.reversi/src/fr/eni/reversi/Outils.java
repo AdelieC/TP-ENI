@@ -30,13 +30,13 @@ public abstract class Outils {
 		return tmp;
 	}
 	
-	public static String getInputString(String msg, int nbDeLettres) {
+	public static String getInputString(String msg, int nbDeLettresMax) {
 		String tmp = "";
 		boolean valide = false;
 		do {
-			System.out.print(tmp.isBlank()? "Entrez " + msg + " -> " : "Saisie invalide, réessayez svp -> ");
+			System.out.print(tmp.isBlank()? "Choisissez " + msg + " -> " : "Saisie invalide, réessayez svp -> ");
 			tmp = SCAN.nextLine();
-			valide = tmp.matches("\\w{" + nbDeLettres + "}");
+			valide = tmp.matches("\\w{1," + nbDeLettresMax + "}");
 		} while(!valide);
 		return tmp;
 	}
@@ -63,13 +63,13 @@ public abstract class Outils {
 		return Integer.parseInt(tmp);
 	}
 	
-	public static int getInputInt(String msg, int nbDeChiffres) {
+	public static int getInputInt(String msg, int min, int max) {
 		String tmp = "";
 		boolean valide = false;
 		do {
 			System.out.print(tmp.isBlank()? "Entrez " + msg + " -> " : "Saisie invalide, réessayez svp -> ");
 			tmp = SCAN.nextLine();
-			valide = tmp.matches("\\d{" + nbDeChiffres + "}");
+			valide = (tmp.matches("\\d+") && Integer.parseInt(tmp) <= max && Integer.parseInt(tmp) >= min);
 		} while(!valide);
 		return Integer.parseInt(tmp);
 	}
@@ -79,7 +79,7 @@ public abstract class Outils {
 		System.out.println("Souhaitez-vous rejouer ou quitter?");
 		System.out.println("1 = rejouer");
 		System.out.println("2 = quitter");
-		input = Outils.getInputInt("votre choix", 1);
+		input = Outils.getInputInt("votre choix", 1, 2);
 		return input == 2;
 	}
 	

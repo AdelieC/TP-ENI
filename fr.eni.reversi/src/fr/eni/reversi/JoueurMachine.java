@@ -2,16 +2,20 @@ package fr.eni.reversi;
 
 public class JoueurMachine implements Joueur {
 
+	private String nom;
+
+	public JoueurMachine() {
+		this.nom = "DEUS EX MACHINA";
+	}
 	@Override
 	public int[] jouer(Plateau plateau, Pion pion) {
-		// TODO Auto-generated method stub
-		return null;
+		Case meilleurCoup = plateau.getBestMove();
+		return meilleurCoup == null ? new int[] {-1,-1}: meilleurCoup.getXY();
 	}
 
 	@Override
 	public String getNom() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nom;
 	}
 
 }

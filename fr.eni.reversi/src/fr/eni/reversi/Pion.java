@@ -13,6 +13,9 @@ public enum Pion {
 		this.symbole = symbole;
 		this.nombre = nombre;
 	}
+	public static Pion getGagnant() {
+		return (Pion.NOIR.getNombreDePions() > Pion.BLANC.getNombreDePions()) ? Pion.NOIR : Pion.BLANC;
+	}
 	
 	public int getNombreDePions() {
 		return this.nombre;
@@ -22,23 +25,27 @@ public enum Pion {
 		return this.symbole;
 	}
 	
+	public Joueur getJoueur() {
+		return this.joueur;
+	}
+	
 	public Pion autrePion() {
 		return this == BLANC ? Pion.NOIR : Pion.BLANC;
 	}
 	
-	public void coup(int nbDePionsAChanger) {
-		this.nombre += nbDePionsAChanger;
+	public void updateNbPions(int nbDePionsAChanger) {
+		this.nombre += nbDePionsAChanger + 1;
 		this.autrePion().nombre -= nbDePionsAChanger;
 		Pion.LIBRE.nombre--;
 	}
 	
-	public static void setJoueur(boolean modeIA) {
+	public static void setJoueurs(boolean modeIA) {
 		if(modeIA) {
-			Pion.NOIR.joueur = new JoueurHumain();
+			Pion.NOIR.joueur = new JoueurHumain(Pion.NOIR);
 			Pion.BLANC.joueur = new JoueurMachine();
 		} else {
-			Pion.NOIR.joueur = new JoueurHumain();
-			Pion.BLANC.joueur = new JoueurHumain();
+			Pion.NOIR.joueur = new JoueurHumain(Pion.NOIR);
+			Pion.BLANC.joueur = new JoueurHumain(Pion.BLANC);
 		}
 	}
 }
